@@ -8,6 +8,7 @@ const NoteTitle = (props) => {
 
   const defaultWordJSX = (
     <Typography
+      variant='h5'
       sx={{
         display: 'inline-block',
         backgroundColor: 'transparent',

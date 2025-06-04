@@ -35,20 +35,17 @@ const Note = (props) => {
 
   return (
     <Box sx={{
-      borderWidth: 1,
-      borderColor: '#090909',
-      borderStyle: 'solid',
       borderRadius: 3,
       p: 1,
       height: 'fit-content',
       width: '300px',
+      boxShadow: '1px 1px 5px 1.5px rgba(147, 137, 137, 0.5)',
     }}>
-      <Typography variant='h4' sx={{
+      <Typography sx={{
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         width: 'fit-content',
-        
       }}>
         <NoteTitle
           title={title}
