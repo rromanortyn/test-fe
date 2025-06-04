@@ -6,9 +6,12 @@ import {
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add'
 import { useDebounce } from 'use-debounce'
 
-import AddNoteFormContainer from '../add-note-form-container/add-note-form.container'
+import AddNoteDialogContainer from '../add-note-dialog-container/add-note-dialog.container'
 import noteService from '../../services/note.service'
 import NotesList from '../../components/notes-list/notes-list'
 import ConfirmDialog from '../../components/confirm-dialog/confirm-dialog'
@@ -26,6 +29,7 @@ const AppContainer = () => {
   const [debouncedSearchQuery] = useDebounce(searchQuery, 400)
 
   const [isLoadingNotes, setIsLoadingNotes] = useState(true)
+  const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false)
 
   const loadNotes = async () => {
     setIsLoadingNotes(true)
@@ -41,6 +45,8 @@ const AppContainer = () => {
   }, [])
 
   const onNewNoteAdded = (newNote) => {
+    setIsAddNoteDialogOpen(false)
+
     setNotes((prev) => [
       newNote,
       ...prev,
@@ -131,6 +137,14 @@ const AppContainer = () => {
     }
   }, [debouncedSearchQuery])
 
+  const openAddNoteDialog = () => {
+    setIsAddNoteDialogOpen(true)
+  }
+
+  const closeAddNoteDialog = () => {
+     setIsAddNoteDialogOpen(false)
+  }
+
   const editNoteDialogContainerJSX = selectedNote === null ? null : (
     <EditNoteDialogContainer
       isOpen={true}
@@ -167,14 +181,33 @@ const AppContainer = () => {
     }
   }, [isLoadingNotes, notes])
 
+  const addNoteDialogContainerJSX = (
+    <AddNoteDialogContainer
+      isOpen={isAddNoteDialogOpen}
+      onCancel={closeAddNoteDialog}
+      onClose={closeAddNoteDialog}
+      onSubmit={onNewNoteAdded}
+    />
+  )
+
   return (
     <Container>
-      <SearchField
-        value={searchQuery}
-        onChange={onSearch}
-      />
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 4,
+      }}>
+        <SearchField
+          value={searchQuery}
+          onChange={onSearch}
+        />
 
-      <AddNoteFormContainer onNewNoteAdded={onNewNoteAdded} />
+        <Button
+          endIcon={<AddIcon />}
+          onClick={openAddNoteDialog}
+        >Add a new note</Button>
+      </Box>
       
       {listContentJSX}
 
@@ -188,6 +221,8 @@ const AppContainer = () => {
       />
 
       {editNoteDialogContainerJSX}
+
+      {addNoteDialogContainerJSX}
     </Container>
   )
 }

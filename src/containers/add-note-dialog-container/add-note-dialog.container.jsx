@@ -1,12 +1,21 @@
 import { useState } from 'react'
-import Box from '@mui/material/Box'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
 
 import noteService from '../../services/note.service'
 
-const AddNoteFormContainer = (props) => {
-  const { onNewNoteAdded } = props
+const AddNoteDialogContainer = (props) => {
+  const {
+    isOpen,
+    onCancel,
+    onClose,
+    onSubmit,
+  } = props
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -21,7 +30,7 @@ const AddNoteFormContainer = (props) => {
     setContent(e.target.value)
   }
 
-  const onSubmit = async () => {
+  const _onSubmit = async () => {
     const dataToSend = {
       title,
       content,
@@ -31,7 +40,7 @@ const AddNoteFormContainer = (props) => {
 
     const newNote = await noteService.addNote(dataToSend)
 
-    onNewNoteAdded(newNote)
+    onSubmit(newNote)
 
     setIsLoading(false)
     setTitle('')
@@ -42,8 +51,9 @@ const AddNoteFormContainer = (props) => {
 
   const formIsValid = title.length > 0 && content.length > 0
 
-  return (
+  const formJSX = (
     <Box sx={{
+      pt: 1,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
@@ -70,19 +80,34 @@ const AddNoteFormContainer = (props) => {
         value={content}
         onChange={onContentChange}
       />
-      <Button
-        sx={{
-          mb: 4,
-          width: '300px',
-        }}
-        variant='contained'
-        onClick={onSubmit}
-        disabled={isLoading || !formIsValid}
-      >
-        {submitButtonText}
-      </Button>
     </Box>
+  )
+
+  return (
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+    >
+      <DialogTitle>Add a new note</DialogTitle>
+      <DialogContent>
+        {formJSX}
+      </DialogContent>
+
+      <DialogActions sx={{
+        p: 3,
+        pt: 0,
+      }}>
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button
+          variant='contained'
+          onClick={_onSubmit}
+          disabled={isLoading || !formIsValid}
+        >
+          {submitButtonText}
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 
-export default AddNoteFormContainer
+export default AddNoteDialogContainer
