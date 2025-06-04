@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { Button, TextareaAutosize, TextField } from '@mui/material'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+
 import noteService from '../../services/note.service'
 
 const AddNoteFormContainer = (props) => {
@@ -37,23 +40,46 @@ const AddNoteFormContainer = (props) => {
 
   const submitButtonText = isLoading ? 'Sending...' : 'Submit'
 
+  const formIsValid = title.length > 0 && content.length > 0
+
   return (
-    <div>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}>
       <TextField
+        sx={{
+          width: '300px',
+          mb: 2,
+        }}
+        placeholder='Enter title'
         value={title}
         onChange={onTitleChange}
       />
-      <TextareaAutosize
+      <TextField
+        sx={{
+          width: '300px',
+          mb: 2,
+        }}
+        placeholder='Enter content'
+        multiline
         value={content}
         onChange={onContentChange}
       />
       <Button
+        sx={{
+          mb: 4,
+          width: '300px',
+        }}
+        variant='contained'
         onClick={onSubmit}
-        disabled={isLoading}
+        disabled={isLoading || !formIsValid}
       >
         {submitButtonText}
       </Button>
-    </div>
+    </Box>
   )
 }
 

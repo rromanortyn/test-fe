@@ -5,21 +5,23 @@ import AddNoteFormContainer from '../add-note-form-container/add-note-form.conta
 import noteService from '../../services/note.service'
 import NotesList from '../../components/notes-list/notes-list'
 import ConfirmDialog from '../../components/confirm-dialog/confirm-dialog'
+import EditNoteDialogContainer from '../edit-note-dialog-container/edit-note-dialog.container'
 
 const AppContainer = () => {
   const [notes, setNotes] = useState([])
   const [confirmDialogProps, setConfirmDialogProps] = useState({
     isOpen: false,
   })
+  const [selectedNote, setSelectedNote] = useState(null)
 
-  const loadNodes = async () => {
+  const loadNotes = async () => {
     const notesFromBE = await noteService.getNotes()
 
     setNotes(notesFromBE)
   }
 
   useEffect(() => {
-    loadNodes()
+    loadNotes()
   }, [])
 
   const onNewNoteAdded = (newNote) => {
@@ -27,10 +29,6 @@ const AppContainer = () => {
       newNote,
       ...prev,
     ])
-  }
-
-  const onEditNote = (note) => {
-    console.log(`preparing to edit note ${note.id}`)
   }
 
   const openConfirmDialog = (props) => {
@@ -80,6 +78,29 @@ const AppContainer = () => {
     })
   }
 
+  const onEditNote = (note) => {
+    setSelectedNote(note)
+  }
+
+  const onEditNoteDialogClose = () => {
+    setSelectedNote(null)
+  }
+
+  const onEditNoteSuccess = (id, updatedNote) => {
+    setSelectedNote(null)
+
+    setNotes((prev) => prev.map((note) => note.id === id ? updatedNote : note))
+  }
+
+  const editNoteDialogContainerJSX = selectedNote === null ? null : (
+    <EditNoteDialogContainer
+      isOpen={true}
+      defaultNote={selectedNote}
+      onClose={onEditNoteDialogClose}
+      onSuccess={onEditNoteSuccess}
+    />
+  )
+
   return (
     <Container>
       <AddNoteFormContainer onNewNoteAdded={onNewNoteAdded} />
@@ -98,6 +119,8 @@ const AppContainer = () => {
         onCancel={confirmDialogProps.onCancel}
         onConfirm={confirmDialogProps.onConfirm}
       />
+
+      {editNoteDialogContainerJSX}
     </Container>
   )
 }

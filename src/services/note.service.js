@@ -20,6 +20,17 @@ const noteService = {
     return response.data
   },
 
+  async updateNote(id, input) {
+    const path = `${import.meta.env.VITE_BACKEND_URL}/notes/${id}`
+
+    const response = await Axios.put(
+      path,
+      input,
+    )
+
+    return response.data
+  }, 
+
   async deleteNote(id) {
     const path = `${import.meta.env.VITE_BACKEND_URL}/notes/${id}`
 
