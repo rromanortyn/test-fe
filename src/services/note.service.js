@@ -38,6 +38,14 @@ const noteService = {
 
     return response.data
   },
+
+  async searchNotes(q) {
+    const path = `${import.meta.env.VITE_BACKEND_URL}/notes/search?q=${encodeURIComponent(q)}`
+
+    const response = await Axios.get(path)
+
+    return response.data
+  }
 }
 
 export default noteService

@@ -7,6 +7,7 @@ const NotesList = (props) => {
     items,
     onEditItem,
     onDeleteItem,
+    searchQuery,
   } = props
 
   const itemsJSX = items.map((item) => (
@@ -16,6 +17,7 @@ const NotesList = (props) => {
       content={item.content}
       onEdit={() => onEditItem(item)}
       onDelete={() => onDeleteItem(item.id)}
+      searchQuery={searchQuery}
     />
   ))
 
