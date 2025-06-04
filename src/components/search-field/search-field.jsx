@@ -16,11 +16,24 @@ const SearchField = (props) => {
     inputRef.current.focus()
   }
 
+  const onKeyDown = (e) => {
+    switch (e.key) {
+      case 'Escape':
+        inputRef.current.blur()
+
+        break
+      
+      default:
+        break
+    }
+  }
+
   return (
     <FormControl sx={{ width: '300px' }} variant='outlined'>
       <OutlinedInput
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         inputRef={inputRef}
         placeholder='Search by title...'
         endAdornment={
