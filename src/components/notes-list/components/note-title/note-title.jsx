@@ -1,12 +1,14 @@
 import Typography from '@mui/material/Typography'
 
+import escapeRegExp from '../../../../utils/escape-reg-exp'
+
 const NoteTitle = (props) => {
   const {
     title,
     searchQuery,
   } = props
 
-  const defaultWordJSX = (
+  const defaultTitleJSX = (
     <Typography
       variant='h5'
       sx={{
@@ -20,49 +22,40 @@ const NoteTitle = (props) => {
   )
 
   if (searchQuery.length === 0) {
-    return defaultWordJSX
+    return defaultTitleJSX
   }
 
-  const titleWords = title
-      .split(' ')
-  
-    const titleWordsThatEqualToQuery = titleWords
-      .find((word) => word === searchQuery)
-  
-    const updatedTitleWordsJSX = titleWords
-      .map(
-        (word) => titleWordsThatEqualToQuery.includes(word) ? (
-          <Typography
-            sx={{
-              display: 'inline-block',
-              backgroundColor: '#024014',
-              color: '#f3f3f3',
-            }}
-          >
-            {word}
-          </Typography>
-        ) : (
-          <Typography
-            sx={{
-              display: 'inline-block',
-              backgroundColor: 'transparent',
-              color: '#090909',
-            }}
-          >
-            {word}
-          </Typography>
-        ),
-      )
+  const regex = new RegExp(`(${escapeRegExp(searchQuery)})`, 'ig')
+  const parts = title.split(regex)
 
-  const spacedTitle = updatedTitleWordsJSX.flatMap((word, index) => {
-    if (index === updatedTitleWordsJSX.length - 1) {
-      return [word]
-    }
+  const titleJSX = parts.map((part) => 
+    regex.test(part) ? 
+    (
+      <Typography
+        sx={{
+          display: 'inline-block',
+          backgroundColor: '#024014',
+          color: '#f3f3f3',
+        }}
+      >
+        {part}
+      </Typography>
+    )
+    :
+    (
+      <Typography
+        sx={{
+          display: 'inline-block',
+          backgroundColor: 'transparent',
+          color: '#090909',
+        }}
+      >
+        {part}
+      </Typography>
+    )
+  )
 
-    return [word, <Typography component='span' key={index}>{' '}</Typography>]
-  })
-
-  return spacedTitle
+  return titleJSX
 }
 
 export default NoteTitle

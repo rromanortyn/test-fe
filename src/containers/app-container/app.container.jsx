@@ -24,10 +24,8 @@ const AppContainer = () => {
     isOpen: false,
   })
   const [selectedNote, setSelectedNote] = useState(null)
-
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearchQuery] = useDebounce(searchQuery, 400)
-
   const [isLoadingNotes, setIsLoadingNotes] = useState(true)
   const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false)
 
@@ -39,10 +37,6 @@ const AppContainer = () => {
     setNotes(notesFromBE)
     setIsLoadingNotes(false)
   }
-
-  useEffect(() => {
-    loadNotes()
-  }, [])
 
   const onNewNoteAdded = (newNote) => {
     setIsAddNoteDialogOpen(false)
@@ -111,31 +105,38 @@ const AppContainer = () => {
   const onEditNoteSuccess = (id, updatedNote) => {
     setSelectedNote(null)
 
-    setNotes((prev) => prev.map((note) => note.id === id ? updatedNote : note))
+    setNotes(
+      (prev) => [
+        updatedNote,
+        ...(prev.filter((note) => note.id !== id)),
+      ],
+    )
   }
 
   const onSearch = (e) => {
     setSearchQuery(e.target.value)
   }
 
-  const searchNotes = async () => {
+  const searchNotes = async (query) => {
     setIsLoadingNotes(true)
 
-    const notes = await noteService.searchNotes(debouncedSearchQuery)
+    const notes = await noteService.searchNotes(query)
 
-    setNotes(notes)
     setIsLoadingNotes(false)
+    setNotes(notes)
   }
 
   useEffect(() => {
-    if (debouncedSearchQuery.length > 0) {
-      searchNotes()
-    }
-
-    else {
+    if (debouncedSearchQuery.length === 0) {
       loadNotes()
     }
-  }, [debouncedSearchQuery])
+
+    else if (debouncedSearchQuery.length > 0) {  
+      searchNotes(debouncedSearchQuery)
+    }
+  }, [
+    debouncedSearchQuery,
+  ])
 
   const openAddNoteDialog = () => {
     setSearchQuery('')
@@ -143,7 +144,11 @@ const AppContainer = () => {
   }
 
   const closeAddNoteDialog = () => {
-     setIsAddNoteDialogOpen(false)
+    setIsAddNoteDialogOpen(false)
+  }
+
+  const onSearchClear = () => {
+    setSearchQuery('')
   }
 
   const editNoteDialogContainerJSX = selectedNote === null ? null : (
@@ -202,8 +207,8 @@ const AppContainer = () => {
         <SearchField
           value={searchQuery}
           onChange={onSearch}
+          onClear={onSearchClear}
         />
-
         <Button
           endIcon={<AddIcon />}
           onClick={openAddNoteDialog}
