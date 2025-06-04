@@ -18,6 +18,8 @@ import ConfirmDialog from '../../components/confirm-dialog/confirm-dialog'
 import EditNoteDialogContainer from '../edit-note-dialog-container/edit-note-dialog.container'
 import SearchField from '../../components/search-field/search-field'
 
+import styles from './app-container.styles'
+
 const AppContainer = () => {
   const [notes, setNotes] = useState([])
   const [confirmDialogProps, setConfirmDialogProps] = useState({
@@ -198,12 +200,7 @@ const AppContainer = () => {
 
   return (
     <Container>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mb: 4,
-      }}>
+      <Box sx={styles.topContainer}>
         <SearchField
           value={searchQuery}
           onChange={onSearch}

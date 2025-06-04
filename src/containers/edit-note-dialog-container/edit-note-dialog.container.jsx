@@ -5,7 +5,10 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import Button from '@mui/material/Button'
+
 import noteService from '../../services/note.service'
+
+import styles from './edit-note-dialog-container.styles'
 
 const EditNoteDialog = (props) => {
   const {
@@ -54,27 +57,16 @@ const EditNoteDialog = (props) => {
         Update the note
       </DialogTitle>
 
-      <DialogContent sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}>
+      <DialogContent sx={styles.dialogContent}>
         <TextField
-          sx={{
-            width: '300px',
-            mt: 1,
-            mb: 2,
-          }}
+          sx={styles.titleTextField}
           label='Title *'
           placeholder='Enter title'
           onChange={onTitleChange}
           value={note.title}
         />
         <TextField
-          sx={{
-            width: '300px',
-            mb: 2,
-          }}
+          sx={styles.contentTextField}
           label='Content *'
           placeholder='Enter content'
           multiline
@@ -83,10 +75,7 @@ const EditNoteDialog = (props) => {
         />
       </DialogContent>
 
-      <DialogActions sx={{
-        p: 3,
-        pt: 0,
-      }}>
+      <DialogActions sx={styles.dialogActions}>
         <Button
           variant='contained'
           onClick={onSubmit}

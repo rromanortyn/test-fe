@@ -2,6 +2,8 @@ import Typography from '@mui/material/Typography'
 
 import escapeRegExp from '../../../../utils/escape-reg-exp'
 
+import styles from './note-title.styles'
+
 const NoteTitle = (props) => {
   const {
     title,
@@ -11,11 +13,7 @@ const NoteTitle = (props) => {
   const defaultTitleJSX = (
     <Typography
       variant='h5'
-      sx={{
-        display: 'inline-block',
-        backgroundColor: 'transparent',
-        color: '#090909',
-      }}
+      sx={styles.notHighlightedPart}
     >
       {title}
     </Typography>
@@ -32,11 +30,7 @@ const NoteTitle = (props) => {
     regex.test(part) ? 
     (
       <Typography
-        sx={{
-          display: 'inline-block',
-          backgroundColor: '#024014',
-          color: '#f3f3f3',
-        }}
+        sx={styles.highlightedPart}
       >
         {part}
       </Typography>
@@ -44,11 +38,7 @@ const NoteTitle = (props) => {
     :
     (
       <Typography
-        sx={{
-          display: 'inline-block',
-          backgroundColor: 'transparent',
-          color: '#090909',
-        }}
+        sx={styles.notHighlightedPart}
       >
         {part}
       </Typography>

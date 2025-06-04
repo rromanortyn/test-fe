@@ -4,6 +4,8 @@ import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputAdornment from '@mui/material/InputAdornment'
 
+import styles from './search-field.styles'
+
 const SearchField = (props) => {
   const {
     value,
@@ -29,15 +31,15 @@ const SearchField = (props) => {
   }
 
   return (
-    <FormControl sx={{ width: '300px' }} variant='outlined'>
+    <FormControl sx={styles.formControl} variant='outlined'>
       <OutlinedInput
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
         inputRef={inputRef}
         placeholder='Search by title...'
-        endAdornment={
-          <InputAdornment position='end'>
+        startAdornment={
+          <InputAdornment position='start'>
             <SearchIcon onClick={onIconClick} />      
           </InputAdornment>
         }

@@ -9,6 +9,8 @@ import Box from '@mui/material/Box'
 
 import noteService from '../../services/note.service'
 
+import styles from './add-note-dialog-container.styles'
+
 const AddNoteDialogContainer = (props) => {
   const {
     isOpen,
@@ -52,28 +54,16 @@ const AddNoteDialogContainer = (props) => {
   const formIsValid = title.length > 0 && content.length > 0
 
   const formJSX = (
-    <Box sx={{
-      pt: 1,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
+    <Box sx={styles.container}>
       <TextField
-        sx={{
-          width: '300px',
-          mb: 2,
-        }}
+        sx={styles.titleTextField}
         label={'Title *'}
         placeholder='Enter title'
         value={title}
         onChange={onTitleChange}
       />
       <TextField
-        sx={{
-          width: '300px',
-          mb: 2,
-        }}
+        sx={styles.contentTextField}
         label='Content *'
         placeholder='Enter content'
         multiline
@@ -93,10 +83,7 @@ const AddNoteDialogContainer = (props) => {
         {formJSX}
       </DialogContent>
 
-      <DialogActions sx={{
-        p: 3,
-        pt: 0,
-      }}>
+      <DialogActions sx={styles.dialogActions}>
         <Button onClick={onCancel}>Cancel</Button>
         <Button
           variant='contained'
