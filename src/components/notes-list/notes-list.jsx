@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box'
+import Masonry from '@mui/lab/Masonry'
 
 import Note from './components/note/note'
 
@@ -20,12 +20,16 @@ const NotesList = (props) => {
   ))
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexWrap: 'wrap',
-    }}>
+    <Masonry
+      columns={{
+        xs: 1,
+        sm: 2,
+        md: 3,
+      }}
+      spacing={2}
+    >
       {itemsJSX}
-    </Box>
+    </Masonry>
   )
 }
 

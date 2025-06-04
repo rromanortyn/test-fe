@@ -43,6 +43,8 @@ const EditNoteDialog = (props) => {
     }))
   }
 
+  const formIsValid = note.title.length > 0 && note.content.length > 0
+
   return (
     <Dialog
       open={isOpen}
@@ -52,22 +54,45 @@ const EditNoteDialog = (props) => {
         Update the note
       </DialogTitle>
 
-      <DialogContent>
+      <DialogContent sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}>
         <TextField
-          sx={{ width: '300px' }}
+          sx={{
+            width: '300px',
+            mt: 1,
+            mb: 2,
+          }}
+          label='Title *'
+          placeholder='Enter title'
           onChange={onTitleChange}
           value={note.title}
         />
         <TextField
-          sx={{ width: '300px' }}
+          sx={{
+            width: '300px',
+            mb: 2,
+          }}
+          label='Content *'
+          la
+          placeholder='Enter content'
           multiline
           onChange={onContentChange}
           value={note.content}
         />
       </DialogContent>
 
-      <DialogActions>
-        <Button onClick={onSubmit} autoFocus>
+      <DialogActions sx={{
+        p: 3,
+        pt: 0,
+      }}>
+        <Button
+          variant='contained'
+          onClick={onSubmit}
+          disabled={!formIsValid}
+        >
           Save
         </Button>
       </DialogActions>

@@ -14,14 +14,13 @@ const Note = (props) => {
 
   return (
     <Box sx={{
-      width: '300px',
-      mb: 2,
       borderWidth: 1,
       borderColor: '#090909',
       borderStyle: 'solid',
       borderRadius: 3,
       p: 1,
-      mr: 2,
+      height: 'fit-content',
+      width: '300px',
     }}>
       <Typography variant='h4' sx={{
         paddingBottom: 1,
@@ -32,11 +31,22 @@ const Note = (props) => {
         borderBottomColor: '#090909',
         borderBottomStyle: 'solid',
       }}>{title}</Typography>
-      <Typography sx={{
-        paddingTop: 1,
-        wordBreak: 'break-all',
-        overflowWrap: 'break-word', 
-      }}>{content}</Typography>
+
+      {
+        content
+          .split('\n')
+          .map(
+            (line) => (
+              <Typography
+                sx={{
+                  wordWrap: 'break-word',
+                }}
+              >
+                {line}
+              </Typography>
+            ),
+          )
+      }
 
       <IconButton sx={{ mr: 2 }} onClick={onEdit}>
         <EditIcon />

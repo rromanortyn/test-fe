@@ -54,6 +54,7 @@ const AddNoteFormContainer = (props) => {
           width: '300px',
           mb: 2,
         }}
+        label={'Title *'}
         placeholder='Enter title'
         value={title}
         onChange={onTitleChange}
@@ -63,6 +64,7 @@ const AddNoteFormContainer = (props) => {
           width: '300px',
           mb: 2,
         }}
+        label='Content *'
         placeholder='Enter content'
         multiline
         value={content}
