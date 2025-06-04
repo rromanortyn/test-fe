@@ -76,7 +76,6 @@ const EditNoteDialog = (props) => {
             mb: 2,
           }}
           label='Content *'
-          la
           placeholder='Enter content'
           multiline
           onChange={onContentChange}

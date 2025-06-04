@@ -32,7 +32,10 @@ const ConfirmDialog = (props) => {
 
       <DialogActions>
         <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onConfirm} autoFocus>
+        <Button
+          variant='contained'
+          onClick={onConfirm}
+        >
           Yes, continue
         </Button>
       </DialogActions>

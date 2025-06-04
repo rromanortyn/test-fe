@@ -15,6 +15,7 @@ const NotesList = (props) => {
       key={item.id}
       title={item.title}
       content={item.content}
+      updatedAt={item.updatedAt}
       onEdit={() => onEditItem(item)}
       onDelete={() => onDeleteItem(item.id)}
       searchQuery={searchQuery}

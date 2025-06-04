@@ -138,6 +138,7 @@ const AppContainer = () => {
   }, [debouncedSearchQuery])
 
   const openAddNoteDialog = () => {
+    setSearchQuery('')
     setIsAddNoteDialogOpen(true)
   }
 

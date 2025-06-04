@@ -3,6 +3,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { formatDistance } from 'date-fns'
 
 import NoteTitle from '../note-title/note-title'
 
@@ -10,10 +11,13 @@ const Note = (props) => {
   const {
     title,
     content,
+    updatedAt,
     onEdit,
     onDelete,
     searchQuery,
   } = props
+
+  const updatedAtDistance = formatDistance(new Date(updatedAt), new Date(), { addSuffix: true })
 
   const linesJSX = content
     .split('\n')
@@ -63,13 +67,26 @@ const Note = (props) => {
 
       {linesJSX}
 
-      <IconButton sx={{ mr: 2 }} onClick={onEdit}>
-        <EditIcon />
-      </IconButton>
+      <Box sx={{
+        display: 'flex',
+        alignItems: 'center',
+        mt: 2,
+        mb: 1,
+      }}>
+        <IconButton sx={{ mr: 2 }} onClick={onEdit}>
+          <EditIcon color='primary' />
+        </IconButton>
 
-      <IconButton onClick={onDelete}>
-        <DeleteIcon />
-      </IconButton>
+        <IconButton onClick={onDelete}>
+          <DeleteIcon color='error' />
+        </IconButton>
+      </Box>
+
+      <Typography
+        fontSize={12}
+      >
+        {`Last update was ${updatedAtDistance}`}
+      </Typography>
     </Box>
   )
 }
